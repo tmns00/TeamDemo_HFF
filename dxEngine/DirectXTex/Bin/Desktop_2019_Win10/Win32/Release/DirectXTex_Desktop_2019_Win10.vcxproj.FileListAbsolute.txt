@@ -1,0 +1,1 @@
+D:\DirectX_MagicBook\MagicBook\DirectXTex\Bin\Desktop_2019_Win10\Win32\Release\DirectXTex.lib

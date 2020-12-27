@@ -1,0 +1,6 @@
+D:\DirectX12_Engine\dxEngine\Debug\BasicPixelShader.cso
+D:\DirectX12_Engine\dxEngine\Debug\BasicVertexShader.cso
+D:\DirectX12_Engine\dxEngine\Debug\PMDPixelShader.cso
+D:\DirectX12_Engine\dxEngine\Debug\PMDVertexShader.cso
+D:\DirectX12_Engine\dxEngine\Debug\OBJVertexShader.cso
+D:\DirectX12_Engine\dxEngine\Debug\OBJPixelShader.cso

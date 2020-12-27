@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>D:\DirectX12_Engine\dxEngine\x64\Debug\dxEngine.exe</ProjectOutputs>
+  <ContentFiles>D:\DirectX12_Engine\dxEngine\x64\Debug\BasicPixelShader.cso;D:\DirectX12_Engine\dxEngine\x64\Debug\BasicVertexShader.cso;D:\DirectX12_Engine\dxEngine\x64\Debug\OBJPixelShader.cso;D:\DirectX12_Engine\dxEngine\x64\Debug\OBJVertexShader.cso;D:\DirectX12_Engine\dxEngine\x64\Debug\PMDPixelShader.cso;D:\DirectX12_Engine\dxEngine\x64\Debug\PMDVertexShader.cso</ContentFiles>
+  <SatelliteDlls></SatelliteDlls>
+  <NonRecipeFileRefs></NonRecipeFileRefs>
+</Project>

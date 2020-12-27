@@ -1,0 +1,4 @@
+D:\DirectX_MagicBook\MagicBook\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.lib
+D:\DirectX_MagicBook\MagicBook\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.pdb
+D:\DirectX12_Engine\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.lib
+D:\DirectX12_Engine\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\Win32\Debug\DirectXTex.pdb
