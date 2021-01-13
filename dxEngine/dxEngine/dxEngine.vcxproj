@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{bd260040-7a0e-4d1c-aa8d-da9f24a39e22}</ProjectGuid>
     <RootNamespace>dxEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -169,6 +169,7 @@
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Capsule.cpp" />
+    <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DeltaCone.cpp" />
     <ClCompile Include="DirectXSystem.cpp" />
     <ClCompile Include="FBXObject.cpp" />
@@ -178,11 +179,13 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OBJObject.cpp" />
+    <ClCompile Include="PhisicMath.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PMDObject.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="VMDLoader.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
@@ -193,6 +196,7 @@
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Capsule.h" />
+    <ClInclude Include="DebugText.h" />
     <ClInclude Include="DeltaCone.h" />
     <ClInclude Include="DirectXSystem.h" />
     <ClInclude Include="FBXObject.h" />
@@ -201,6 +205,7 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ModelPrimitive.h" />
+    <ClInclude Include="PhisicMath.h" />
     <ClInclude Include="PMDMotionStructs.h" />
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="Plane.h" />
@@ -209,6 +214,7 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="VMDLoader.h" />
     <ClInclude Include="WindowsApp.h" />
