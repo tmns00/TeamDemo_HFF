@@ -1,2 +1,4 @@
 D:\DirectX12_Engine\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.lib
 D:\DirectX12_Engine\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.pdb
+C:\Users\daiam\Desktop\統合版\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.lib
+C:\Users\daiam\Desktop\統合版\dxEngine\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.pdb

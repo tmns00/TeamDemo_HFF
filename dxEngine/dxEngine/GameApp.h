@@ -17,7 +17,7 @@
 #include"SafeDelete.h"
 
 #include"Vector3.h"
-
+#include"PhisicMath.h"
 class GameApp
 {
 private:
@@ -29,6 +29,7 @@ private:
 	Input* input = nullptr;
 	//サウンドクラス
 	Sound* sound = nullptr;
+
 
 	//ゲームオブジェクト管理クラス
 	GameObjectManager* objManager = nullptr;
@@ -68,19 +69,34 @@ private:
 	float radzx = 0;
 	float radxy = 0;
 	float radzy = 0;
+	float rady = 0;
+	float omgZ = 0;
+	float omgY = 0;
+	float omgX = 0;
+	float VecZ = 0;
+	float VecX = 0;
+	float VecY = 0;
 	Col_Sphere rectangle;
 	Col_Plane col_plane;
 	Vector3 Fx;
 	Vector3 Fz;
+	Vector3 Fy;
+	Vector3 position;
+	Vector3 inter2;
+	bool isStopX = false;
+	bool isStopZ = false;
 	float omg;
+	DirectX::XMFLOAT3 POS;
+	DirectX::XMFLOAT3 INTER;
 	bool isHit = false;
 	bool hit = false;
 	bool PosStop = false;
 	bool Grav = false;
 	Vector3 F;
+	bool GetPos = true;
 
 	DirectX::XMFLOAT3 cube_rot;
-	
+
 
 private:
 	//コンストラクタ

@@ -4,3 +4,9 @@ D:\DirectX12_Engine\dxEngine\x64\Debug\OBJPixelShader.cso
 D:\DirectX12_Engine\dxEngine\x64\Debug\OBJVertexShader.cso
 D:\DirectX12_Engine\dxEngine\x64\Debug\PMDPixelShader.cso
 D:\DirectX12_Engine\dxEngine\x64\Debug\PMDVertexShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\BasicPixelShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\BasicVertexShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\OBJPixelShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\OBJVertexShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\PMDPixelShader.cso
+C:\Users\daiam\Desktop\統合版\dxEngine\x64\Debug\PMDVertexShader.cso
