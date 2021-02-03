@@ -5,6 +5,8 @@ using namespace DirectX;
 
 Camera* Camera::instance = nullptr;
 
+const float CameraMoveScale = 0.5f;
+
 void Camera::UpdateViewMatrix() {
 	//Ž‹“_À•W
 	XMVECTOR eyePos = XMLoadFloat3(&eye);
@@ -111,8 +113,8 @@ void Camera::DebugCameraUpdate() {
 	}
 
 	if (input->TriggerMouseWheel()) {
-		float dx = mouseMove.lenX;
-		float dy = mouseMove.lenY;
+		float dx = mouseMove.lenX * CameraMoveScale;
+		float dy = mouseMove.lenY * CameraMoveScale;
 
 		XMVECTOR move = { -dx,+dy,0,0 };
 		move = XMVector3Transform(move, matRot);
