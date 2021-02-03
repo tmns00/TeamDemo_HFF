@@ -72,8 +72,8 @@ void Capsule::Update() {
 	res = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
 	constMap->matrix = matWorld *
-		Camera::GetViewMatrix() *
-		Camera::GetProjectionMatrix();	// s—ñ‚Ì‡¬
+		camera->GetViewMatrix() *
+		camera->GetProjectionMatrix();	// s—ñ‚Ì‡¬
 	constBuff->Unmap(0, nullptr);
 
 	UpdateColPos();

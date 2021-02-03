@@ -85,11 +85,7 @@ private:
 	FbxAnimStack* AnimationStack = nullptr;
 
 	//ボーン
-	int useBoneNum = 0;
-	BoneData* boneArray;
-	FbxCluster** ppCluster;
 	FbxMatrix* clusterDeformation; //各頂点にかける最終的な行列の配列
-
 	int boneNum = 0; //ボーン数
 	std::map<std::string,std::vector<Bone>> bones;
 

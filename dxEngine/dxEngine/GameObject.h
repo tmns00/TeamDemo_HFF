@@ -5,6 +5,7 @@
 #include<wrl.h>
 
 #include"CollisionPrimitive.h"
+#include"Camera.h"
 
 class GameObject abstract
 {
@@ -34,6 +35,9 @@ protected:
 
 	//エラーバイナリコード
 	ComPtr<ID3DBlob>errorBlob = nullptr;
+
+	//カメラポインター
+	Camera* camera = Camera::GetInstance();
 
 public:
 	GameObject() = default;

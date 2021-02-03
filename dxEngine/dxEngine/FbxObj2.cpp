@@ -61,8 +61,8 @@ void FbxObj2::Update() {
 	res = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->color = color;
 	constMap->matrix = matWorld *
-		Camera::GetViewMatrix() *
-		Camera::GetProjectionMatrix();	// 行列の合成
+		camera->GetViewMatrix() *
+		camera->GetProjectionMatrix();	// 行列の合成
 	constBuff->Unmap(0, nullptr);
 
 	UpdateAnim();
@@ -337,9 +337,7 @@ void FbxObj2::LoadSkinInfo(
 
 	//ボーンを取得
 	boneNum = skinInfo->GetClusterCount();
-	ppCluster = new FbxCluster * [boneNum];
 	for (int i = 0; i < boneNum; ++i) {
-		ppCluster[i] = skinInfo->GetCluster(i);
 		Bone addBone = {};
 		addBone.name = skinInfo->GetCluster(i)->GetLink()->GetName();
 		addBone.bone = skinInfo->GetCluster(i);

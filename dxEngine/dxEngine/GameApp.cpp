@@ -28,6 +28,7 @@ bool GameApp::Initialize() {
 	input = Input::GetInstance();
 	//カメラクラス生成
 	Camera::Create();
+	camera = Camera::GetInstance();
 	//サウンドクラス生成
 	Sound::Create();
 	sound = Sound::GetInstance();
@@ -93,17 +94,6 @@ void GameApp::Run() {
 	float angle = 0;
 
 	MSG msg = {};
-
-	//マウス右ドラッグ
-	bool flag_mouseRDrag = false;
-	//マウスのスクリーン上座標(前フレーム)
-	POINT pre_mPoint;
-	//マウスのスクリーン上座標(現在フレーム)
-	POINT now_mPoint;
-	//横方向角度(radian)
-	float camRot_theta = -90.0f * (XM_PI / 180.0f);
-	//縦方向角度(radian)
-	float camRot_delta = 0.0f * (XM_PI / 180.0f);
 
 	while (true)
 	{
@@ -182,7 +172,7 @@ void GameApp::Run() {
 
 				}
 			}
-			if (input->isTrigger(DIK_F))
+			if (input->IsTrigger(DIK_F))
 				Grav = true;
 			if (Grav)
 			{
@@ -200,14 +190,14 @@ void GameApp::Run() {
 				cube_rot.x = 0;
 			XMFLOAT3 cube_rot = cube->GetRotation();
 
-			if (input->isKey(DIK_UP) || input->isKey(DIK_DOWN)
-				|| input->isKey(DIK_RIGHT) || input->isKey(DIK_LEFT))
+			if (input->IsKey(DIK_UP) || input->IsKey(DIK_DOWN)
+				|| input->IsKey(DIK_RIGHT) || input->IsKey(DIK_LEFT))
 			{
 				// 移動後の座標を計算
-				if (input->isKey(DIK_UP)) { cube_rot.z += 1; }
-				else if (input->isKey(DIK_DOWN)) { cube_rot.z -= 1; }
-				if (input->isKey(DIK_RIGHT)) { cube_rot.x += 1; }
-				else if (input->isKey(DIK_LEFT)) { cube_rot.x -= 1; }
+				if (input->IsKey(DIK_UP)) { cube_rot.z += 1; }
+				else if (input->IsKey(DIK_DOWN)) { cube_rot.z -= 1; }
+				if (input->IsKey(DIK_RIGHT)) { cube_rot.x += 1; }
+				else if (input->IsKey(DIK_LEFT)) { cube_rot.x -= 1; }
 
 				//cube->SetRotation(cube_rot);
 			}
@@ -466,104 +456,41 @@ void GameApp::Run() {
 
 			//アニメーション
 			{
-				if (input->isTrigger(DIK_M))
+				if (input->IsTrigger(DIK_M))
 					pmdObj->PlayAnimation("squat.vmd");
 
-				if (input->isTrigger(DIK_N))
+				if (input->IsTrigger(DIK_N))
 					pmdObj->PlayAnimation("swing2.vmd");
 
-				if (input->isTrigger(DIK_B))
+				if (input->IsTrigger(DIK_B))
 					pmdObj->StopAnimation();
-			}
-
-			//カメラ移動
-			{
-				//横
-				if (input->isKey(DIK_NUMPAD1) || input->isKey(DIK_NUMPAD3)) {
-					if (input->isKey(DIK_NUMPAD1))
-						Camera::MoveVector({ -0.1f,0.0f,0.0f });
-					else if (input->isKey(DIK_NUMPAD3))
-						Camera::MoveVector({ +0.1f,0.0f,0.0f });
-				}
-				//縦
-				if (input->isKey(DIK_NUMPAD5) || input->isKey(DIK_NUMPAD2)) {
-					if (input->isKey(DIK_NUMPAD2))
-						Camera::MoveVector({ 0.0f,-0.1f,0.0f });
-					else if (input->isKey(DIK_NUMPAD5))
-						Camera::MoveVector({ 0.0f,+0.1f,0.0f });
-				}
-				//奥行
-				if (input->isKey(DIK_NUMPAD4) || input->isKey(DIK_NUMPAD6)) {
-					if (input->isKey(DIK_NUMPAD4))
-						Camera::MoveVector({ 0.0f,0.0f,-0.1f });
-					else if (input->isKey(DIK_NUMPAD6))
-						Camera::MoveVector({ 0.0f,0.0f,+0.1f });
-				}
-			}
-			//カメラ回転
-			{
-				//ドラッグ中かどうか
-				if (GetAsyncKeyState(VK_RBUTTON) & 0x8000
-					&& !flag_mouseRDrag
-					&& winApp->GetWindowActive()) {
-					flag_mouseRDrag = true;
-					GetCursorPos(&pre_mPoint);
-				}
-				else if (!(GetAsyncKeyState(VK_RBUTTON) & 0x8000)) {
-					flag_mouseRDrag = false;
-				}
-				//スクリーン上の移動距離から回転角を決める
-				if (flag_mouseRDrag) {
-					GetCursorPos(&now_mPoint);
-
-					camRot_theta -= (now_mPoint.x - pre_mPoint.x) * 0.001f;
-
-					if (camRot_delta + (now_mPoint.y - pre_mPoint.y) * 0.001f >=
-						XM_PI / 2.0f - 0.0001f) {
-						camRot_delta = XM_PI / 2.0f - 0.0001f;
-					}
-					else if (camRot_delta + (now_mPoint.y - pre_mPoint.y) * 0.001f <=
-						-XM_PI / 2.0f + 0.0001f) {
-						camRot_delta = -XM_PI / 2.0f + 0.0001f;
-					}
-					else {
-						camRot_delta += (now_mPoint.y - pre_mPoint.y) * 0.001f;
-					}
-
-					GetCursorPos(&pre_mPoint);
-
-					Camera::RotationCamForMouse(
-						camRot_theta,
-						camRot_delta
-					);
-				}
 			}
 
 			//オブジェクト移動
 			{
 				XMFLOAT3 pos = fbxObj->GetPosition();
 
-				if (input->isKey(DIK_W) || input->isKey(DIK_S)) { //縦
-					if (input->isKey(DIK_S)) {
+				if (input->IsKey(DIK_W) || input->IsKey(DIK_S)) { //縦
+					if (input->IsKey(DIK_S)) {
 						cube_pos.z -= 0.1f;
 					}
-					else if (input->isKey(DIK_W)) {
+					else if (input->IsKey(DIK_W)) {
 						cube_pos.z += 0.1f;
 					}
 				}
-				if (input->isKey(DIK_A) || input->isKey(DIK_D)) { //横
-					if (input->isKey(DIK_A)) {
+				if (input->IsKey(DIK_A) || input->IsKey(DIK_D)) { //横
+					if (input->IsKey(DIK_A)) {
 						cube_pos.x -= 0.1f;
 					}
-					else if (input->isKey(DIK_D)) {
+					else if (input->IsKey(DIK_D)) {
 						cube_pos.x += 0.1f;
 					}
 				}
-				if (input->isKey(DIK_Q) || input->isKey(DIK_E)) { //奥行
-					if (input->isKey(DIK_Q)) {
+				if (input->IsKey(DIK_Q) || input->IsKey(DIK_E)) { //奥行
+					if (input->IsKey(DIK_Q)) {
 						pos.z -= 0.1f;
 					}
-					else if (input->isKey(DIK_E)) {
+					else if (input->IsKey(DIK_E)) {
 						pos.z += 0.1f;
 					}
 				}
@@ -571,24 +498,25 @@ void GameApp::Run() {
 				fbxObj->SetPosition(pos);
 			}
 
-			if (input->isTrigger(DIK_1)) {
+			if (input->IsTrigger(DIK_1)) {
 				sound->PlaySE("Alarm01.wav");
 			}
-			if (input->isTrigger(DIK_2)) {
+			if (input->IsTrigger(DIK_2)) {
 				sound->PlaySE("Alarm02.wav");
 			}
-			if (input->isTrigger(DIK_3)) {
+			if (input->IsTrigger(DIK_3)) {
 				sound->PlaySE("Alarm03.wav");
 			}
-			if (input->isTrigger(DIK_4)) {
+			if (input->IsTrigger(DIK_4)) {
 				sound->PlaySE("button.wav");
 			}
-			if (input->isTrigger(DIK_5)) {
+			if (input->IsTrigger(DIK_5)) {
 				sound->PlayBGM("dmg.wav");
 			}
 
 			//更新処理
 			input->Update();
+			camera->Update();
 			objManager->Update();
 			cube->SetPosition(cube_pos);
 			cube->SetRotation(cube_rot);
@@ -607,8 +535,8 @@ void GameApp::Run() {
 void GameApp::Delete() {
 	objManager->Terminate();
 	input->Terminate();
+	camera->Terminate();
 	DirectXSystem::Destroy();
-	Camera::Terminate();
 	Sound::Terminate();
 
 	//もうクラスは使わないので登録解除する

@@ -73,8 +73,8 @@ void OBJObject::Update(){
 	ConstBuffDataB0* constMap = nullptr;
 	res = constBuff->Map(0, nullptr, (void**)&constMap);
 	constMap->matrix = matWorld *
-		Camera::GetViewMatrix() *
-		Camera::GetProjectionMatrix();	// 行列の合成
+		camera->GetViewMatrix() *
+		camera->GetProjectionMatrix();	// 行列の合成
 	constBuff->Unmap(0, nullptr);
 
 	// 定数バッファへデータ転送

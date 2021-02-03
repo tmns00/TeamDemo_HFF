@@ -111,10 +111,10 @@ void PMDObject::Update(){
     }
     //行列のコピー
     mapMatrix->world = matWorld;
-    mapMatrix->view = Camera::GetViewMatrix();
-    mapMatrix->proj = Camera::GetProjectionMatrix();
-    mapMatrix->view_proj = Camera::GetViewMatrix() * Camera::GetProjectionMatrix();
-    mapMatrix->eye = Camera::GetEye();
+    mapMatrix->view = camera->GetViewMatrix();
+    mapMatrix->proj = camera->GetProjectionMatrix();
+    mapMatrix->view_proj = camera->GetViewMatrix() * camera->GetProjectionMatrix();
+    mapMatrix->eye = camera->GetEye();
     std::copy(
         boneMatrices.begin(),
         boneMatrices.end(),

@@ -4,6 +4,7 @@
 #include"DirectXSystem.h"
 #include"Input.h"
 #include"Sound.h"
+#include"Camera.h"
 #include"GameObjectManager.h"
 #include"DeltaCone.h"
 #include"Sphere.h"
@@ -29,6 +30,8 @@ private:
 	Input* input = nullptr;
 	//サウンドクラス
 	Sound* sound = nullptr;
+	//カメラクラス
+	Camera* camera = nullptr;
 
 
 	//ゲームオブジェクト管理クラス
