@@ -36,6 +36,8 @@ protected:
 	ComPtr<ID3DBlob>errorBlob = nullptr;
 
 public:
+	GameObject() = default;
+	virtual ~GameObject();
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
 	virtual void Draw(

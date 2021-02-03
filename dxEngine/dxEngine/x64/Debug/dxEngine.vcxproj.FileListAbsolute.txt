@@ -10,3 +10,5 @@ D:\TeamDemo_HFF\dxEngine\x64\Debug\OBJPixelShader.cso
 D:\TeamDemo_HFF\dxEngine\x64\Debug\OBJVertexShader.cso
 D:\TeamDemo_HFF\dxEngine\x64\Debug\PMDPixelShader.cso
 D:\TeamDemo_HFF\dxEngine\x64\Debug\PMDVertexShader.cso
+D:\TeamDemo_HFF\dxEngine\x64\Debug\FBXPixelShader.cso
+D:\TeamDemo_HFF\dxEngine\x64\Debug\FBXVertexShader.cso

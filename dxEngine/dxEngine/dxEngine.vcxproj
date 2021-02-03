@@ -172,7 +172,7 @@
     <ClCompile Include="DebugText.cpp" />
     <ClCompile Include="DeltaCone.cpp" />
     <ClCompile Include="DirectXSystem.cpp" />
-    <ClCompile Include="FBXObject.cpp" />
+    <ClCompile Include="FbxObj2.cpp" />
     <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -199,7 +199,7 @@
     <ClInclude Include="DebugText.h" />
     <ClInclude Include="DeltaCone.h" />
     <ClInclude Include="DirectXSystem.h" />
-    <ClInclude Include="FBXObject.h" />
+    <ClInclude Include="FbxObj2.h" />
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
@@ -241,6 +241,22 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VSmain</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VSmain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="FBXPixelShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PSmain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PSmain</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="FBXVertexShader.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VSmain</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -307,6 +323,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicShaderHeader.hlsli" />
+    <None Include="FBXShaderHeader.hlsli" />
     <None Include="OBJShaderHeader.hlsli" />
     <None Include="PMDShaderHeader.hlsli" />
   </ItemGroup>

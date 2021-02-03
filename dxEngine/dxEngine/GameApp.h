@@ -13,7 +13,7 @@
 #include"Capsule.h"
 #include"PMDObject.h"
 #include"OBJObject.h"
-#include"FBXObject.h"
+#include"FbxObj2.h"
 #include"SafeDelete.h"
 
 #include"Vector3.h"
@@ -52,7 +52,7 @@ private:
 	//OBJÉÇÉfÉã
 	OBJObject* objObj = nullptr;
 	//FBX
-	FBXObject* fbxObj = nullptr;
+	FbxObj2* fbxObj = nullptr;
 
 	//ï®óù
 	bool isJamp;

@@ -25,3 +25,8 @@ void GameObject::DebugShader(
 		::OutputDebugStringA(errstr.c_str());
 	}
 }
+
+GameObject::~GameObject()
+{
+}
+

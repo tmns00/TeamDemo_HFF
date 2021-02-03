@@ -75,9 +75,6 @@
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="FBXObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="VMDLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -91,6 +88,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="PhisicMath.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxObj2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,9 +155,6 @@
     <ClInclude Include="GameObjectManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="FBXObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PMDMotionStructs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -174,6 +171,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="PhisicMath.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxObj2.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -196,6 +196,12 @@
     <FxCompile Include="PMDVertexShader.hlsl">
       <Filter>シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="FBXPixelShader.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="FBXVertexShader.hlsl">
+      <Filter>シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicShaderHeader.hlsli">
@@ -205,6 +211,9 @@
       <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="PMDShaderHeader.hlsli">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="FBXShaderHeader.hlsli">
       <Filter>シェーダーファイル</Filter>
     </None>
   </ItemGroup>

@@ -7,10 +7,6 @@
 #include<iomanip>
 using namespace DirectX;
 
-const int deltaCone_num = 10;
-const int sylinder_num = 5;
-const int sphere_num = 15;
-
 GameApp& GameApp::Instance() {
 	static GameApp instance;
 	return instance;
@@ -52,18 +48,10 @@ bool GameApp::Initialize() {
 	XMFLOAT3 plane_scale = { 1000,1000,1000 };
 	plane->SetScale(plane_scale);
 
-	//PMDモデル
-	pmdObj = PMDObject::Create(
-		dxSystem->GetDevice(),
-		"Resources/Model/初音ミク.pmd"
-	);
-	//objManager->AddGameObjectsList(pmdObj);
-
-	//PMDモデル
-	fbxObj = FBXObject::Create(
-		dxSystem->GetDevice(),
-		"Resources/Model/fbxcube.fbx"
-	);
+	//FBXモデル
+	fbxObj = new FbxObj2();
+	fbxObj->device = dxSystem->GetDevice();
+	fbxObj->Initialize();
 	objManager->AddGameObjectsList(fbxObj);
 
 	//OBJモデル
@@ -96,7 +84,6 @@ bool GameApp::Initialize() {
 		//F.x = 0.001;
 		radxx = 30;
 		cube->SetRotation(cube_rot);
-
 	}
 
 	return true;
@@ -117,9 +104,6 @@ void GameApp::Run() {
 	float camRot_theta = -90.0f * (XM_PI / 180.0f);
 	//縦方向角度(radian)
 	float camRot_delta = 0.0f * (XM_PI / 180.0f);
-
-	XMFLOAT3 scale = { 0.5f,0.5f,0.5f };
-	pmdObj->SetScale(scale);
 
 	while (true)
 	{
@@ -557,7 +541,7 @@ void GameApp::Run() {
 
 			//オブジェクト移動
 			{
-				XMFLOAT3 pos = pmdObj->GetPosition();
+				XMFLOAT3 pos = fbxObj->GetPosition();
 
 				if (input->isKey(DIK_W) || input->isKey(DIK_S)) { //縦
 					if (input->isKey(DIK_S)) {
@@ -584,7 +568,7 @@ void GameApp::Run() {
 					}
 				}
 
-				pmdObj->SetPosition(pos);
+				fbxObj->SetPosition(pos);
 			}
 
 			if (input->isTrigger(DIK_1)) {
