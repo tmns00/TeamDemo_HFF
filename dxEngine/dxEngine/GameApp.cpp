@@ -32,6 +32,7 @@ bool GameApp::Initialize() {
 	input = Input::GetInstance();
 	//カメラクラス生成
 	Camera::Create();
+	camera = Camera::GetInstance();
 	//サウンドクラス生成
 	Sound::Create();
 	sound = Sound::GetInstance();
