@@ -390,74 +390,80 @@ void FbxObj2::UpdateAnim() {
 	if (AnimStackNameArray != NULL) {
 		timeCount += frameTime;
 		if (timeCount > stop)timeCount = start;
-
-		for (auto meshNode : meshNodeList) {
-			//移動・回転・拡大の行列を作成
-			FbxMatrix globalPosition = meshNode.second->EvaluateGlobalTransform(timeCount);
-			FbxVector4 t0 = meshNode.second->GetGeometricTranslation(FbxNode::eSourcePivot);
-			FbxVector4 r0 = meshNode.second->GetGeometricRotation(FbxNode::eSourcePivot);
-			FbxVector4 s0 = meshNode.second->GetGeometricScaling(FbxNode::eSourcePivot);
-			FbxAMatrix geometryOffset = FbxAMatrix(t0, r0, s0);
-
-			//各頂点にかける最終的な行列の配列
-			clusterDeformation = new FbxMatrix[meshNode.second->GetMesh()->GetPolygonVertexCount()];
-			memset(clusterDeformation, 0, sizeof(FbxMatrix) * meshNode.second->GetMesh()->GetPolygonVertexCount());
-
-			//FbxSkin* skinDeformer = (FbxSkin*)meshNode.second->GetMesh()->GetDeformer(0, FbxDeformer::eSkin);
-			//int clusterCount = skinDeformer->GetClusterCount();
-			//各頂点に影響を与えるための行列の作成
-			for (int clusterIndex = 0; clusterIndex < boneNum; ++clusterIndex) {
-				//ボーンの取り出し
-				FbxMatrix vertexTransformMatrix;
-				FbxAMatrix referenceGloabalInitPosition;
-				FbxAMatrix clusterGlobalInitPosition;
-				FbxMatrix clusterGlobalCurrentPosition;
-				FbxMatrix clusterRelativeInitposition;
-				FbxMatrix clusterRelativeCurrentPositionInverse;
-
-				bones[meshNode.first][clusterIndex].bone->GetTransformMatrix(referenceGloabalInitPosition);
-				referenceGloabalInitPosition *= geometryOffset;
-
-				bones[meshNode.first][clusterIndex].bone->GetTransformLinkMatrix(clusterGlobalInitPosition);
-				clusterGlobalCurrentPosition = bones[meshNode.first][clusterIndex].bone->GetLink()->EvaluateGlobalTransform(timeCount);
-
-				clusterRelativeInitposition = clusterGlobalInitPosition.Inverse() * referenceGloabalInitPosition;
-				clusterRelativeCurrentPositionInverse = globalPosition.Inverse() * clusterGlobalCurrentPosition;
-
-				vertexTransformMatrix = clusterRelativeCurrentPositionInverse * clusterRelativeInitposition;
-
-				//上で作った行列に重みをかける
-				for (int i = 0; i < bones[meshNode.first][clusterIndex].bone->GetControlPointIndicesCount(); ++i) {
-					int index = bones[meshNode.first][clusterIndex].bone->GetControlPointIndices()[i];
-					double weight = bones[meshNode.first][clusterIndex].bone->GetControlPointWeights()[i];
-					FbxMatrix influence = vertexTransformMatrix * weight;
-					clusterDeformation[index] += influence;
-				}
-			}
-
-			//最終的な頂点座標を計算する
-			for (int i = 0; i < meshNodeList[meshNode.first]->GetMesh()->GetControlPointsCount(); ++i) {
-				FbxVector4 outVertex = clusterDeformation[i].MultNormalize(meshNode.second->GetMesh()->GetControlPointAt(i));
-				vertices[meshNode.first][i].pos.x = static_cast<float>(-outVertex[0]);
-				vertices[meshNode.first][i].pos.y = static_cast<float>(outVertex[1]);
-				vertices[meshNode.first][i].pos.z = static_cast<float>(outVertex[2]);
-			}
-
-			HRESULT res = S_FALSE;
-			VertexData* vertMap = nullptr;
-			res = vertBuff[meshNode.first]->Map(0, nullptr, (void**)&vertMap);
-			if (FAILED(res)) {
-				assert(0);
-			}
-			std::copy(
-				vertices[meshNode.first].begin(),
-				vertices[meshNode.first].end(),
-				vertMap
-			);
-
-			delete[] clusterDeformation;
-		}
 	}
+
+	for (auto meshNode : meshNodeList) {
+		//移動・回転・拡大の行列を作成
+		FbxMatrix globalPosition = meshNode.second->EvaluateGlobalTransform(timeCount);
+		FbxVector4 t0 = meshNode.second->GetGeometricTranslation(FbxNode::eSourcePivot);
+		FbxVector4 r0 = meshNode.second->GetGeometricRotation(FbxNode::eSourcePivot);
+		FbxVector4 s0 = meshNode.second->GetGeometricScaling(FbxNode::eSourcePivot);
+		FbxAMatrix geometryOffset = FbxAMatrix(t0, r0, s0);
+
+		//各頂点にかける最終的な行列の配列
+		clusterDeformation = new FbxMatrix[meshNode.second->GetMesh()->GetPolygonVertexCount()];
+		memset(clusterDeformation, 0, sizeof(FbxMatrix) * meshNode.second->GetMesh()->GetPolygonVertexCount());
+
+		//各頂点に影響を与えるための行列の作成
+		for (int clusterIndex = 0; clusterIndex < boneNum; ++clusterIndex) {
+			//ボーンの取り出し
+			FbxMatrix vertexTransformMatrix;
+			FbxAMatrix referenceGloabalInitPosition;
+			FbxAMatrix clusterGlobalInitPosition;
+			FbxMatrix clusterGlobalCurrentPosition;
+			FbxMatrix clusterRelativeInitposition;
+			FbxMatrix clusterRelativeCurrentPositionInverse;
+
+			bones[meshNode.first][clusterIndex].bone->GetTransformMatrix(referenceGloabalInitPosition);
+			referenceGloabalInitPosition *= geometryOffset;
+
+			bones[meshNode.first][clusterIndex].bone->GetTransformLinkMatrix(clusterGlobalInitPosition);
+			clusterGlobalCurrentPosition = bones[meshNode.first][clusterIndex].bone->GetLink()->EvaluateGlobalTransform(timeCount);
+
+			clusterRelativeInitposition = clusterGlobalInitPosition.Inverse() * referenceGloabalInitPosition;
+			clusterRelativeCurrentPositionInverse = globalPosition.Inverse() * clusterGlobalCurrentPosition;
+
+			vertexTransformMatrix = clusterRelativeCurrentPositionInverse * clusterRelativeInitposition;
+
+			//上で作った行列に重みをかける
+			for (int i = 0; i < bones[meshNode.first][clusterIndex].bone->GetControlPointIndicesCount(); ++i) {
+				int index = bones[meshNode.first][clusterIndex].bone->GetControlPointIndices()[i];
+				double weight = bones[meshNode.first][clusterIndex].bone->GetControlPointWeights()[i];
+				FbxMatrix influence = vertexTransformMatrix * weight;
+				clusterDeformation[index] += influence;
+			}
+		}
+
+		//最終的な頂点座標を計算する
+		for (int i = 0; i < meshNodeList[meshNode.first]->GetMesh()->GetControlPointsCount(); ++i) {
+			FbxVector4 outVertex = clusterDeformation[i].MultNormalize(meshNode.second->GetMesh()->GetControlPointAt(i));
+			vertices[meshNode.first][i].pos.x = static_cast<float>(-outVertex[0]);
+			vertices[meshNode.first][i].pos.y = static_cast<float>(outVertex[1]);
+			vertices[meshNode.first][i].pos.z = static_cast<float>(outVertex[2]);
+		}
+
+		HRESULT res = S_FALSE;
+		VertexData* vertMap = nullptr;
+		res = vertBuff[meshNode.first]->Map(0, nullptr, (void**)&vertMap);
+		if (FAILED(res)) {
+			assert(0);
+		}
+		std::copy(
+			vertices[meshNode.first].begin(),
+			vertices[meshNode.first].end(),
+			vertMap
+		);
+
+		delete[] clusterDeformation;
+	}
+
+}
+
+void FbxObj2::CreateFrameMatrix(
+	const std::string meshName,
+	FbxNode* node
+) {
+
 }
 
 void FbxObj2::SetPosBone(
