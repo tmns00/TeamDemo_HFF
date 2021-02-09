@@ -35,7 +35,7 @@ void Plane::Initialize(){
         assert(0);
     }
 
-    if (FAILED(LoadTexture("Resources/Texture/testtex.png"))) {
+    if (FAILED(LoadTexture(textureName))) {
         assert(0);
     }
 
@@ -106,7 +106,8 @@ void Plane::Terminate(){
 }
 
 Plane* Plane::Create(
-    ID3D12Device* dev
+    ID3D12Device* dev,
+    const std::string texName
 ){
     Plane* instance = new Plane;
     if (!instance) {
@@ -114,6 +115,7 @@ Plane* Plane::Create(
         return nullptr;
     }
     instance->device = dev;
+    instance->textureName = texName;
 
     instance->Initialize();
 
@@ -385,8 +387,22 @@ HRESULT Plane::LoadTexture(
     TexMetadata metadata{};
     ScratchImage scratchImg{};
 
+    const std::string directoryPath = "Resources/Texture/";
+    std::string texturePath = directoryPath + textureName + ".png";
+
+    //ユニコード文字列に変換する
+    wchar_t wFileName[128];
+    int iBuffSize = MultiByteToWideChar(
+        CP_ACP,
+        0,
+        texturePath.c_str(),
+        -1,
+        wFileName,
+        _countof(wFileName)
+    );
+
     res = LoadFromWICFile(
-        L"Resources/Texture/white1x1.png",
+        wFileName,
         WIC_FLAGS_NONE,
         &metadata,
         scratchImg

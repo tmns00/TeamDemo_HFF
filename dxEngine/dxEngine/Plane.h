@@ -34,6 +34,8 @@ private:
 	//DirectXデバイス
 	ID3D12Device* device = nullptr;
 
+	std::string textureName = "";
+
 	//球体頂点データ
 	VertexData vertices[vertexCount];
 	//球体インデックスデータ
@@ -78,7 +80,8 @@ public:
 
 public:
 	static Plane* Create(
-		ID3D12Device* dev
+		ID3D12Device* dev,
+		const std::string texName
 	);
 
 private:

@@ -45,7 +45,7 @@ bool GameApp::Initialize() {
 	cube->SetPosition({ -15,5,0 });
 	objManager->AddGameObjectsList(cube);
 
-	plane = Plane::Create(dxSystem->GetDevice());
+	plane = Plane::Create(dxSystem->GetDevice(),"white1x1");
 	plane->SetPosition({ 0,0,0 });
 	objManager->AddGameObjectsList(plane);
 	XMFLOAT3 plane_scale = { 1000,1000,1000 };

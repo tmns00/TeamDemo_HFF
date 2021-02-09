@@ -131,7 +131,7 @@ void Camera::DebugCameraUpdate() {
 
 	if (dirty || viewDirty) {
 		XMMATRIX matRotNew = XMMatrixIdentity();
-		matRotNew *= XMMatrixRotationX(-angleY);
+		//matRotNew *= XMMatrixRotationX(-angleY);
 		matRotNew *= XMMatrixRotationY(-angleX);
 
 		matRot = matRotNew * matRot;
