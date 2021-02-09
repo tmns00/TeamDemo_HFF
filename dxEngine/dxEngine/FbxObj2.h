@@ -160,6 +160,11 @@ private:
 
 	void UpdateAnim();
 
+	void CreateFrameMatrix(
+		const std::string meshName,
+		FbxNode* node
+	);
+
 	void SetPosBone(
 		XMFLOAT3 setPos,
 		int boneIndex
