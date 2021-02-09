@@ -182,6 +182,7 @@
     <ClCompile Include="PhisicMath.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PMDObject.cpp" />
+    <ClCompile Include="quaternion.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Cylinder.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="OBJObject.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="PMDObject.h" />
+    <ClInclude Include="quaternion.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sphere.h" />

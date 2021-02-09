@@ -19,6 +19,7 @@
 
 #include"Vector3.h"
 #include"PhisicMath.h"
+
 class GameApp
 {
 private:
@@ -88,9 +89,29 @@ private:
 	Vector3 inter2;
 	bool isStopX = false;
 	bool isStopZ = false;
+	int count = 0;
+	int cnt1[8] = { 0,1,2,3,//ëO			
+				 4,5,6,7,//âE
+	};
+	int cnt2[8]={ 
+		4,5,6,7,//å„ÇÎ		 
+		4,5,6,7,//ç∂
+	};
+	float theat = 0;
+	float phai = 0;
+	float len = 0;
+	float R1 = 0;
+	float R2 = 0;
+	float Theat = 0;
+	
+	DirectX::XMFLOAT3 Len;
+	DirectX::XMFLOAT3 VertPos[24];
+	DirectX::XMFLOAT3 v[8];
+	
 	float omg;
 	DirectX::XMFLOAT3 POS;
 	DirectX::XMFLOAT3 INTER;
+	
 	bool isHit = false;
 	bool hit = false;
 	bool PosStop = false;

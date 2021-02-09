@@ -23,6 +23,26 @@ float& Rad(Vector3& pos, Vector3& inter)
 
 }
 
+float& theta(DirectX::XMFLOAT3& VertPos)
+{
+	float x = VertPos.x;
+	float y = VertPos.y;
+	float z = VertPos.z;
+		
+	float COS = sqrt(z * z) / sqrt(x * x + z * z);
+	return COS;
+}
+
+float& Phi( DirectX::XMFLOAT3& VertPos)
+{
+	float x = VertPos.x;
+	float y = VertPos.y;
+	float z = VertPos.z;
+
+	float COS = sqrt(x * x + z * z) / sqrt(x * x + y * y + z * z);
+	return COS;
+}
+
 float& Vec(float& vec,const float& a, const float& t)
 {
 	vec += a * t;
@@ -73,5 +93,36 @@ float& Rope(float& spring,float& Airres)
 	
 	float F = spring - Airres;
 	return F;
+}
+
+Quaternion pc(float& x, float& y, float& z)
+{
+	Quaternion p = Coordinate2Quaternion(y, x, z);
+	return p;
+}
+
+Quaternion q(float& th,const float& x,const float& y,const float& z)
+{
+	double d2r = atan(1.0) / 45.0f;
+	Quaternion q = Rotational2Quaternion(th * d2r, x, y, z);	
+	return q;
+}
+
+Quaternion qc(Quaternion& q)
+{
+	Quaternion qc = QuaternionConjugate(q);
+	return qc;
+}
+
+//クオータニオン
+Quaternion Quat(Quaternion& p, Quaternion& q, Quaternion& qc)
+{
+	
+	//回転処理
+	p = QuaternionMultiplication(q, p);
+	p = QuaternionMultiplication(p, qc);
+	//テスト終わり
+	return p;
+	
 }
 
