@@ -20,6 +20,13 @@
 #include"Vector3.h"
 #include"PhisicMath.h"
 
+enum Scene
+{
+	Title,
+	Game,
+	End,
+};
+
 class GameApp
 {
 private:
@@ -50,6 +57,11 @@ private:
 
 	//Sphereコンテナ
 	std::vector<Sphere*> spheres;
+
+	//シーン管理
+	Scene sceneState = Title;
+	//タイトル板ポリ
+	Plane* title = nullptr;
 
 	//物理
 	bool isJamp;
