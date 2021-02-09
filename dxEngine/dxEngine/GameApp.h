@@ -37,26 +37,19 @@ private:
 
 	//ゲームオブジェクト管理クラス
 	GameObjectManager* objManager = nullptr;
-	//三角錐
-	DeltaCone* deltaCone = nullptr;
-	//球体
-	Sphere* sphere = nullptr;
-	//球体2
-	Sphere* sphere2 = nullptr;
+	
 	//板ポリ
 	Plane* plane = nullptr;
 	//立方体
 	Cube* cube = nullptr;
-	//PMDモデル
-	PMDObject* pmdObj = nullptr;
-	//円柱
-	Cylinder* cylinder = nullptr;
-	//カプセル
-	Capsule* capsule = nullptr;
+	
 	//OBJモデル
 	OBJObject* objObj = nullptr;
 	//FBX
 	FbxObj2* fbxObj = nullptr;
+
+	//Sphereコンテナ
+	std::vector<Sphere*> spheres;
 
 	//物理
 	bool isJamp;

@@ -5,7 +5,7 @@ using namespace DirectX;
 
 Camera* Camera::instance = nullptr;
 
-const float CameraMoveScale = 0.5f;
+const float CameraMoveScale = 0.1f;
 
 void Camera::UpdateViewMatrix() {
 	//‹“_À•W

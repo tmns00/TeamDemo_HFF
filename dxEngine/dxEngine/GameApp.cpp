@@ -7,9 +7,7 @@
 #include<iomanip>
 using namespace DirectX;
 
-const int deltaCone_num = 10;
-const int sylinder_num = 5;
-const int sphere_num = 15;
+const int object_num = 20;
 
 GameApp& GameApp::Instance() {
 	static GameApp instance;
@@ -53,18 +51,11 @@ bool GameApp::Initialize() {
 	XMFLOAT3 plane_scale = { 1000,1000,1000 };
 	plane->SetScale(plane_scale);
 
-	//PMDモデル
-	pmdObj = PMDObject::Create(
-		dxSystem->GetDevice(),
-		"Resources/Model/初音ミク.pmd"
-	);
-	//objManager->AddGameObjectsList(pmdObj);
-
-	//PMDモデル
-	fbxObj = FBXObject::Create(
-		dxSystem->GetDevice(),
-		"Resources/Model/fbxcube.fbx"
-	);
+	//FBXモデル
+	fbxObj = new FbxObj2();
+	fbxObj->device = dxSystem->GetDevice();
+	fbxObj->Initialize();
+	fbxObj->SetPosition({ 0.0f,5.0f,0.0f });
 	objManager->AddGameObjectsList(fbxObj);
 
 	//OBJモデル
@@ -74,6 +65,54 @@ bool GameApp::Initialize() {
 	);
 	objObj->SetPosition({ 15,0,0 });
 	objManager->AddGameObjectsList(objObj);
+
+	//球
+	for (int i = 0; i < object_num; ++i) {
+		Sphere* add = Sphere::Create(dxSystem->GetDevice());
+		XMFLOAT3 setPos = {
+			static_cast<float>(rand() % 100 - 50),
+			static_cast<float>(rand() % 30),
+			static_cast<float>(rand() % 100 - 50)
+		};
+		add->SetPosition(setPos);
+		objManager->AddGameObjectsList(add);
+	}
+
+	//カプセル
+	for (int i = 0; i < object_num; ++i) {
+		Capsule* add = Capsule::Create(dxSystem->GetDevice());
+		XMFLOAT3 setPos = {
+			static_cast<float>(rand() % 100 - 50),
+			static_cast<float>(rand() % 30),
+			static_cast<float>(rand() % 100 - 50)
+		};
+		add->SetPosition(setPos);
+		objManager->AddGameObjectsList(add);
+	}
+
+	//円柱
+	for (int i = 0; i < object_num; ++i) {
+		Cylinder* add = Cylinder::Create(dxSystem->GetDevice());
+		XMFLOAT3 setPos = {
+			static_cast<float>(rand() % 100 - 50),
+			static_cast<float>(rand() % 30),
+			static_cast<float>(rand() % 100 - 50)
+		};
+		add->SetPosition(setPos);
+		objManager->AddGameObjectsList(add);
+	}
+
+	//三角錐
+	for (int i = 0; i < object_num; ++i) {
+		DeltaCone* add = DeltaCone::Create(dxSystem->GetDevice());
+		XMFLOAT3 setPos = {
+			static_cast<float>(rand() % 100 - 50),
+			static_cast<float>(rand() % 30),
+			static_cast<float>(rand() % 100 - 50)
+		};
+		add->SetPosition(setPos);
+		objManager->AddGameObjectsList(add);
+	}
 
 	//物理
 	{
@@ -133,8 +172,8 @@ bool GameApp::Initialize() {
 			v[cnt2[i]].y = R1 * sin((cube_rot.z + 45 + 90 * i) * 3.14 / 180);
 		}
 		R2 = sqrt(v[0].z * v[0].z + v[0].y * v[0].y);
-	
-		Theat = acos(v[0].z / R2)*180/3.14;
+
+		Theat = acos(v[0].z / R2) * 180 / 3.14;
 		for (int i = 0; i < 4; i++)
 		{
 			v[cnt1[i]].z = R2 * cos((cube_pos.x + Theat + 90 * i) * 3.14 / 180);
@@ -145,8 +184,8 @@ bool GameApp::Initialize() {
 
 			oss << R2 << ","
 				<< v[0].z << ","
-				<<Theat<<","
-				<<v[0].y;
+				<< Theat << ","
+				<< v[0].y;
 			oss << std::endl;
 
 
@@ -161,20 +200,6 @@ void GameApp::Run() {
 	float angle = 0;
 
 	MSG msg = {};
-
-	//マウス右ドラッグ
-	bool flag_mouseRDrag = false;
-	//マウスのスクリーン上座標(前フレーム)
-	POINT pre_mPoint;
-	//マウスのスクリーン上座標(現在フレーム)
-	POINT now_mPoint;
-	//横方向角度(radian)
-	float camRot_theta = -90.0f * (XM_PI / 180.0f);
-	//縦方向角度(radian)
-	float camRot_delta = 0.0f * (XM_PI / 180.0f);
-
-	XMFLOAT3 scale = { 0.5f,0.5f,0.5f };
-	pmdObj->SetScale(scale);
 
 	while (true)
 	{
@@ -192,13 +217,8 @@ void GameApp::Run() {
 
 		//物理
 		{
-
 			// 現在の座標を取得
 			XMFLOAT3 cube_pos = cube->GetPosition();
-
-
-
-			
 
 			for (int i = 0; i < 8; i++)
 			{
@@ -206,10 +226,7 @@ void GameApp::Run() {
 				p.x = cube_pos.x + v[i].x;
 				p.y = cube_pos.y + v[i].y;
 				p.z = cube_pos.z + v[i].z;
-				
 
-
-				
 				rectangle.center.m128_f32[0] = p.x;
 				rectangle.center.m128_f32[1] = p.y;
 				rectangle.center.m128_f32[2] = p.z;
@@ -258,28 +275,22 @@ void GameApp::Run() {
 					if (cube_rot.x >= 270 && cube_rot.x < 360)
 						radzx -= 270;
 					GetPos = false;
-
 				}
 				if (hit)
 				{
 					isHit = true;
 					Grav = false;
-
-
 				}
 			}
-		
 
-		
+			/*std::ostringstream oss;
 
-			std::ostringstream oss;
-			
 			oss << theat << ","
 				<< position.y << ","
 				<<sqrt(9)
 			 << std::endl;
-			OutputDebugStringA(oss.str().c_str());
-			if (input->isTrigger(DIK_F))
+			OutputDebugStringA(oss.str().c_str());*/
+			if (input->IsTrigger(DIK_F))
 				Grav = true;
 			if (Grav)
 			{
@@ -297,28 +308,28 @@ void GameApp::Run() {
 				cube_rot.x = 0;
 			XMFLOAT3 cube_rot = cube->GetRotation();
 
-			if (input->isKey(DIK_UP) || input->isKey(DIK_DOWN)
-				|| input->isKey(DIK_RIGHT) || input->isKey(DIK_LEFT))
+			if (input->IsKey(DIK_UP) || input->IsKey(DIK_DOWN)
+				|| input->IsKey(DIK_RIGHT) || input->IsKey(DIK_LEFT))
 			{
 				// 移動後の座標を計算
-				if (input->isKey(DIK_UP)) { cube_rot.z += 1; }
-				else if (input->isKey(DIK_DOWN)) { cube_rot.z -= 1; }
-				if (input->isKey(DIK_RIGHT)) { cube_rot.x += 1; }
-				else if (input->isKey(DIK_LEFT)) { cube_rot.x -= 1; }
+				if (input->IsKey(DIK_UP)) { cube_rot.z += 1; }
+				else if (input->IsKey(DIK_DOWN)) { cube_rot.z -= 1; }
+				if (input->IsKey(DIK_RIGHT)) { cube_rot.x += 1; }
+				else if (input->IsKey(DIK_LEFT)) { cube_rot.x -= 1; }
 
 				//cube->SetRotation(cube_rot);
 			}
 
-			if (isHit && input->isKey(DIK_L))
+			if (isHit && input->IsKey(DIK_L))
 			{
 				float F = cos(phai);
 				phai += 0.01f;
-				cube_pos.y = 10+len * sin(phai);
-				cube_pos.x =10+ len * cos(phai);
+				cube_pos.y = 10 + len * sin(phai);
+				cube_pos.x = 10 + len * cos(phai);
 				float Len2 = sqrt(cube_pos.x * cube_pos.x);
-			
-				cube_pos.x =10+ Len2 * cos(theat);
-				cube_pos.z =10+ Len2 * sin(theat);
+
+				cube_pos.x = 10 + Len2 * cos(theat);
+				cube_pos.z = 10 + Len2 * sin(theat);
 				if (cos(phai) < 0 || cos(phai) > 0)
 				{
 					theat *= 180 * 3.14 / 180;
@@ -575,144 +586,98 @@ void GameApp::Run() {
 				cube->SetRotation(cube_rot);
 			}
 
-
-			//アニメーション
-			{
-				if (input->isTrigger(DIK_M))
-					pmdObj->PlayAnimation("squat.vmd");
-
-				if (input->isTrigger(DIK_N))
-					pmdObj->PlayAnimation("swing2.vmd");
-
-				if (input->isTrigger(DIK_B))
-					pmdObj->StopAnimation();
-			}
-
-			//カメラ移動
-			{
-				//横
-				if (input->isKey(DIK_NUMPAD1) || input->isKey(DIK_NUMPAD3)) {
-					if (input->isKey(DIK_NUMPAD1))
-						Camera::MoveVector({ -0.1f,0.0f,0.0f });
-					else if (input->isKey(DIK_NUMPAD3))
-						Camera::MoveVector({ +0.1f,0.0f,0.0f });
-				}
-				//縦
-				if (input->isKey(DIK_NUMPAD5) || input->isKey(DIK_NUMPAD2)) {
-					if (input->isKey(DIK_NUMPAD2))
-						Camera::MoveVector({ 0.0f,-0.1f,0.0f });
-					else if (input->isKey(DIK_NUMPAD5))
-						Camera::MoveVector({ 0.0f,+0.1f,0.0f });
-				}
-				//奥行
-				if (input->isKey(DIK_NUMPAD4) || input->isKey(DIK_NUMPAD6)) {
-					if (input->isKey(DIK_NUMPAD4))
-						Camera::MoveVector({ 0.0f,0.0f,-0.1f });
-					else if (input->isKey(DIK_NUMPAD6))
-						Camera::MoveVector({ 0.0f,0.0f,+0.1f });
-				}
-			}
-			//カメラ回転
-			{
-				//ドラッグ中かどうか
-				if (GetAsyncKeyState(VK_RBUTTON) & 0x8000
-					&& !flag_mouseRDrag
-					&& winApp->GetWindowActive()) {
-					flag_mouseRDrag = true;
-					GetCursorPos(&pre_mPoint);
-				}
-				else if (!(GetAsyncKeyState(VK_RBUTTON) & 0x8000)) {
-					flag_mouseRDrag = false;
-				}
-				//スクリーン上の移動距離から回転角を決める
-				if (flag_mouseRDrag) {
-					GetCursorPos(&now_mPoint);
-
-					camRot_theta -= (now_mPoint.x - pre_mPoint.x) * 0.001f;
-
-					if (camRot_delta + (now_mPoint.y - pre_mPoint.y) * 0.001f >=
-						XM_PI / 2.0f - 0.0001f) {
-						camRot_delta = XM_PI / 2.0f - 0.0001f;
-					}
-					else if (camRot_delta + (now_mPoint.y - pre_mPoint.y) * 0.001f <=
-						-XM_PI / 2.0f + 0.0001f) {
-						camRot_delta = -XM_PI / 2.0f + 0.0001f;
-					}
-					else {
-						camRot_delta += (now_mPoint.y - pre_mPoint.y) * 0.001f;
-					}
-
-					GetCursorPos(&pre_mPoint);
-
-					Camera::RotationCamForMouse(
-						camRot_theta,
-						camRot_delta
-					);
-				}
-			}
-
 			//オブジェクト移動
 			{
-				XMFLOAT3 pos = pmdObj->GetPosition();
-
-				if (input->isKey(DIK_W) || input->isKey(DIK_S)) { //縦
-					if (input->isKey(DIK_S)) {
+				if (input->IsKey(DIK_W) || input->IsKey(DIK_S)) { //縦
+					if (input->IsKey(DIK_S)) {
 						cube_pos.z -= 0.1f;
 					}
-					else if (input->isKey(DIK_W)) {
+					else if (input->IsKey(DIK_W)) {
 						cube_pos.z += 0.1f;
 					}
 				}
-				if (input->isKey(DIK_A) || input->isKey(DIK_D)) { //横
-					if (input->isKey(DIK_A)) {
+				if (input->IsKey(DIK_A) || input->IsKey(DIK_D)) { //横
+					if (input->IsKey(DIK_A)) {
 						cube_pos.x -= 0.1f;
 					}
-					else if (input->isKey(DIK_D)) {
+					else if (input->IsKey(DIK_D)) {
 						cube_pos.x += 0.1f;
 					}
 				}
-				if (input->isKey(DIK_Q) || input->isKey(DIK_E)) { //奥行
-					if (input->isKey(DIK_Q)) {
-						pos.z -= 0.1f;
-					}
-					else if (input->isKey(DIK_E)) {
-						pos.z += 0.1f;
-					}
-				}
 
-				pmdObj->SetPosition(pos);
+				cube->SetPosition(cube_pos);
+				cube->SetRotation(cube_rot);
 			}
-
-			if (input->isTrigger(DIK_1)) {
-				sound->PlaySE("Alarm01.wav");
-			}
-			if (input->isTrigger(DIK_2)) {
-				sound->PlaySE("Alarm02.wav");
-			}
-			if (input->isTrigger(DIK_3)) {
-				sound->PlaySE("Alarm03.wav");
-			}
-			if (input->isTrigger(DIK_4)) {
-				sound->PlaySE("button.wav");
-			}
-			if (input->isTrigger(DIK_5)) {
-				sound->PlayBGM("dmg.wav");
-			}
-
-			//更新処理
-			input->Update();
-			objManager->Update();
-			cube->SetPosition(cube_pos);
-			cube->SetRotation(cube_rot);
-			//描画前処理
-			dxSystem->DrawBefore();
-
-			//描画処理
-			objManager->Draw(dxSystem->GetCmdList());
-
-			//描画後処理
-			dxSystem->DrawAfter();
 		}
+
+		//オブジェクト移動
+		{
+			XMFLOAT3 playerPos = fbxObj->GetPosition();
+			if (input->IsKey(DIK_NUMPAD8) || input->IsKey(DIK_NUMPAD2)) { //縦
+				if (input->IsKey(DIK_NUMPAD2)) {
+					playerPos.z -= 0.1f;
+				}
+				else if (input->IsKey(DIK_NUMPAD8)) {
+					playerPos.z += 0.1f;
+				}
+			}
+			if (input->IsKey(DIK_NUMPAD4) || input->IsKey(DIK_NUMPAD6)) { //横
+				if (input->IsKey(DIK_NUMPAD4)) {
+					playerPos.x -= 0.1f;
+				}
+				else if (input->IsKey(DIK_NUMPAD6)) {
+					playerPos.x += 0.1f;
+				}
+			}
+
+			fbxObj->SetPosition(playerPos);
+		}
+
+		if (input->IsTrigger(DIK_1)) {
+			sound->PlaySE("Alarm01.wav");
+		}
+		if (input->IsTrigger(DIK_2)) {
+			sound->PlaySE("Alarm02.wav");
+		}
+		if (input->IsTrigger(DIK_3)) {
+			sound->PlaySE("Alarm03.wav");
+		}
+		if (input->IsTrigger(DIK_4)) {
+			sound->PlaySE("button.wav");
+		}
+		if (input->IsTrigger(DIK_5)) {
+			sound->PlayBGM("dmg.wav");
+		}
+
+		//カメラ移動
+		{
+			XMFLOAT3 playerPos = fbxObj->GetPosition();
+			XMFLOAT3 camPos2Player = { 0,5,-10 };
+
+			XMFLOAT3 camPosWorld = {};
+			camPosWorld.x = playerPos.x + camPos2Player.x;
+			camPosWorld.y = playerPos.y + camPos2Player.y;
+			camPosWorld.z = playerPos.z + camPos2Player.z;
+
+			camera->SetEye(camPosWorld);
+			camera->SetTarget(playerPos);
+		}
+
+		//更新処理
+		input->Update();
+		camera->Update();
+		objManager->Update();
+		//cube->SetPosition(cube_pos);
+		//cube->SetRotation(cube_rot);
+		//描画前処理
+		dxSystem->DrawBefore();
+
+		//描画処理
+		objManager->Draw(dxSystem->GetCmdList());
+
+		//描画後処理
+		dxSystem->DrawAfter();
+
 	}
 
 }
@@ -720,7 +685,7 @@ void GameApp::Delete() {
 	objManager->Terminate();
 	input->Terminate();
 	DirectXSystem::Destroy();
-	Camera::Terminate();
+	camera->Terminate();
 	Sound::Terminate();
 
 	//もうクラスは使わないので登録解除する
